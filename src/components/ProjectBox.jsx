@@ -1,79 +1,82 @@
 import '../App.css';
 import '../pages/Dashboard';
-import { DndContext, useDroppable, useDraggable } from '@dnd-kit/core';
 
-function Card({ id, children }) {
-    const { setNodeRef } = useDroppable({ id });
+function ProjectBox({ data, equipment, employees, onDrop }) {
 
-    return (
-        <div
-            ref={setNodeRef}
-            className="bg-white shadow-lg rounded-xl p-4 border border-orange-200"
-        >
-            {children}
-        </div>
-    );
-}
-
-function DraggableItem({ id, children }) {
-    const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
-
-    const style = {
-        transform: transform
-            ? `translate(${transform.x}px, ${transform.y}px)`
-            : undefined,
+    const handleDragStart = (e, id, type) => {
+        e.dataTransfer.effectAllowed = "move";
+        e.dataTransfer.setData("itemId", id);
+        e.dataTransfer.setData("itemType", type);
+        e.dataTransfer.setData("sourceGroup", data.group);
     };
 
-    return (
-        <div
-            ref={setNodeRef}
-            style={style}
-            {...listeners}
-            {...attributes}
-            className="cursor-grab active:cursor-grabbing"
-        >
-            {children}
-        </div>
-    );
-}
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+    };
 
-
-
-function ProjectBox({ key, data, materialDisplay }) {
+    const handleDrop = (e) => {
+        e.preventDefault();
+        const itemId = e.dataTransfer.getData("itemId");
+        const itemType = e.dataTransfer.getData("itemType");
+        const sourceGroup = e.dataTransfer.getData("sourceGroup");
+        
+        if (sourceGroup !== data.group) {
+            onDrop(itemId, itemType, sourceGroup, data.group);
+        }
+    };
     
   return (
     
-    <Card id={ `card` + key } className="max-w-xl mx-auto bg-white rounded-2xl shadow-lg p-6 border border-orange-200 space-y-6">
+    <div className="max-w-xl mx-auto bg-white rounded-2xl shadow-lg p-6 border border-orange-200 space-y-6" 
+    onDragOver={handleDragOver}
+    onDrop={handleDrop}>
 
         <h3 className="text-2xl font-semibold text-gray-800 mb-2 border-b border-orange-300 pb-2">{data.name}</h3>
         <h4 className="text-lg font-medium text-orange-600">Equipment</h4>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            {data.equipment.map((item, index) => {
-                const code = item.substring(0, 2);
-                let imgSrc = code.toLowerCase() + ".png";
+            {equipment.map((item) => {
+                const code = item.name.substring(0, 2);
+                let imgSrc = "./" + code.toLowerCase() + ".png";
 
-                return (
-                    <DraggableItem key={ index } id={ index } className="flex flex-col items-center">
-                        <img src={imgSrc} alt={item} className="w-16 h-16 object-contain mb-1" />
-                        <p className="text-gray-700 font-medium">{item}</p>
-                    </DraggableItem>
-                );
+                if(data.group === item.group){
+                    return (
+                        <div 
+                            className="flex flex-col items-center cursor-grab active:cursor-grabbing hover:opacity-80"
+                            key={item.id}
+                            draggable
+                            onDragStart={(e) => handleDragStart(e, item.id, "equipment")}
+                        >
+                            <img src={imgSrc} alt={item.name} className="w-16 h-16 object-contain mb-1" />
+                            <p className="text-gray-700 font-medium">{item.name}</p>
+                        </div>
+                    );
+                }
             })}     
         </div>
 
         <h4 className="text-lg font-medium text-orange-600">Employees</h4>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            {data.employees.map((employee, index) => (
-                <div key={index} className="flex flex-col items-center">
-                    <img src="profile.png" alt={employee} className="w-16 h-16 rounded-full mb-1" />
-                    <p className="text-gray-700 font-medium">{employee}</p>
-                </div>
-            ))}
+            {employees.map((item) => {
+                if(data.group === item.group){
+                    return (
+                        <div 
+                            className="flex flex-col items-center cursor-grab active:cursor-grabbing hover:opacity-80"
+                            key={item.id}
+                            draggable
+                            onDragStart={(e) => handleDragStart(e, item.id, "employees")}
+                        >
+                            <img src="./profile.png" alt={item.name} className="w-16 h-16 rounded-full mb-1" />
+                            <p className="text-gray-700 font-medium">{item.name}</p>
+                        </div>
+                    );
+                }
+            })}
         </div>
 
-        { materialDisplay === 1 && ( 
+        { data.materials && data.materials.length > 0 && ( 
             <>
                 <h4 className="text-lg font-medium text-orange-600">Materials</h4>
 
@@ -91,7 +94,7 @@ function ProjectBox({ key, data, materialDisplay }) {
             </>
         )}
 
-    </Card>
+    </div>
 
 
   );

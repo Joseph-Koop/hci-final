@@ -1,8 +1,7 @@
 export const projects = [
     {
         name: "Grading Campsite",
-        equipment: [ "EX-2", "DT-1" ],
-        employees: [ "John", "Andrew", "Tomas" ],
+        group: "group1",
         materials: [
             {
                 name: "maul",
@@ -43,8 +42,7 @@ export const projects = [
 
     {
         name: "Hummingbird Roadwork",
-        equipment: [ "CT-1", "GR-1" ],
-        employees: [ "Juan", "Matt" ],
+        group: "group2",
         materials: [
             {
                 name: "maul",
@@ -81,8 +79,7 @@ export const projects = [
 
     {
         name: "Paving Business Lot",
-        equipment: [ "DT-3", "CT-2" ],
-        employees: [ "Carlos", "Ben", "Jose" ],
+        group: "group3",
         materials: [
             {
                 name: "maul",
@@ -108,3 +105,36 @@ export const projects = [
         logs: []
     }
 ];
+
+export const unassigned = {
+    name: "Unassigned",
+    group: "group4",
+    materials: []
+};
+
+export const equipment = [
+    { name: "EX-2", id: 1, group: "group1" },
+    { name: "DT-1", id: 2, group: "group1" },
+    { name: "CT-1", id: 3, group: "group2" },
+    { name: "GR-1", id: 4, group: "group2" },
+    { name: "DT-3", id: 5, group: "group3" },
+    { name: "CT-2", id: 6, group: "group3" },
+    { name: "EX-1", id: 7, group: "group4" },
+    { name: "EX-3", id: 8, group: "group4" },
+    { name: "DT-2", id: 9, group: "group4" }
+];
+
+export const employees = [
+    { name: "John", id: 10, group: "group1" },
+    { name: "Andrew", id: 11, group: "group1" },
+    { name: "Tomas", id: 12, group: "group1" },
+    { name: "Juan", id: 13, group: "group2" },
+    { name: "Matt", id: 14, group: "group2" },
+    { name: "Carlos", id: 15, group: "group3" },
+    { name: "Ben", id: 16, group: "group3" },
+    { name: "Jose", id: 17, group: "group3" },
+    { name: "Peter", id: 18, group: "group4" },
+    { name: "Brad", id: 19, group: "group4" },
+    { name: "Alan", id: 20, group: "group4" }
+];
+

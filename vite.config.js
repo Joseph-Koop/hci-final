@@ -8,5 +8,5 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  base: "/hci-final"
+  base: "/hci-final"  // Oncomment for GH pages
 })

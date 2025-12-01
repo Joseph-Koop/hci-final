@@ -31,15 +31,16 @@ function Map() {
 
   return (
     
-    <div className="bg-(--light2) dark:bg-(--dark1) grid grid-rows-[1fr_5fr_1fr] w-full h-screen text-black dark:text-white">
-      <div>Map</div>
-      <div ref={ mapRef } className="w-full">
+    <div className="bg-(--light2) dark:bg-(--dark1) grid grid-rows-[1fr_6fr_1fr] w-full h-screen text-black dark:text-white">
+      <div className="flex justify-end items-center">
+        <Link to="/" className="text-center gap-3 p-3 m-3 rounded-xl hover:bg-(--main3) bg-(--main2) transition">Project View</Link>
+      </div>
+
+      <div ref={ mapRef } className="m-3">
         
       </div>
-      <div className="flex flex-row-reverse items-end">
-        <Link to="/" className="text-center gap-3 p-3 m-3 rounded-xl hover:bg-(--main3) bg-(--main2) transition">Dashboard View</Link>
-      </div>
       
+      <div></div>
     </div>
   );
 }
