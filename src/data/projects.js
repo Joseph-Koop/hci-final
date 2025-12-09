@@ -1,7 +1,10 @@
 export const projects = [
     {
         name: "Grading Campsite",
+        id: 1,
         group: "group1",
+        locationX: 17.15,
+        locationY: -89.07,
         materials: [
             {
                 name: "maul",
@@ -42,7 +45,10 @@ export const projects = [
 
     {
         name: "Hummingbird Roadwork",
+        id: 2,
         group: "group2",
+        locationX: 16.96, 
+        locationY: -88.22,
         materials: [
             {
                 name: "maul",
@@ -79,7 +85,10 @@ export const projects = [
 
     {
         name: "Paving Business Lot",
+        id: 3,
         group: "group3",
+        locationX: 18.08,
+        locationY: -88.56, 
         materials: [
             {
                 name: "maul",
@@ -137,4 +146,3 @@ export const employees = [
     { name: "Brad", id: 19, group: "group4" },
     { name: "Alan", id: 20, group: "group4" }
 ];
-

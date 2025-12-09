@@ -1,22 +1,23 @@
 @import "tailwindcss";
-
 @theme {
   --dark1: #0D1B1E;
-  --dark2: #011114;
-  --light1: #FFF0B0;
-  --light2: #FFFCF6;
-  --main1: #F5BB00;
-  --main2: #793B09;
-  --main3: #FF4E00;
+  --dark2: #1A2B35;
+  --light1: #F8F9FA;
+  --light2: #FFFFFF;
+  --main1: #FF9A3C; /* Warm orange */
+  --main2: #4A6BAA; /* Soft blue */
+  --main3: #FF6B6B; /* Soft red */
+  --success: #4CAF50; /* Green */
+  --warning: #FFC107; /* Yellow */
+  --info: #17A2B8; /* Teal */
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -32,8 +33,23 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  font-size: 2.5rem;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+button {
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
 }
 
 @keyframes fadeIn {
@@ -43,4 +59,36 @@ h1 {
 
 .animate-fadeIn {
   animation: fadeIn 0.15s ease-out forwards;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #2d3748;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #4a5568;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #718096;
 }
