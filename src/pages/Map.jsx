@@ -1,6 +1,6 @@
 import '../App.css';
 import React, { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import L from "leaflet";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
@@ -15,6 +15,7 @@ L.Icon.Default.mergeOptions({
 
 function Map({ projectsList }) {
   const mapRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!mapRef.current || !projectsList) return;
@@ -34,9 +35,17 @@ function Map({ projectsList }) {
     markers.forEach((m) => {
       const marker = L.marker(m.coords).addTo(map);
       const popup = L.popup({ autoClose: false }).setContent(
-        `<a href="/hci-final/projects/${m.id}" class="text-sm font-semibold text-black mb-2 border-b border-orange-300 pb-2 hover:text-orange-500">${m.name}</a>`
+        `<a class="text-sm font-semibold text-black mb-2 border-b border-orange-300 pb-2 hover:text-orange-500 cursor-pointer" data-project-id="${m.id}">${m.name}</a>`
       );
       marker.bindPopup(popup).openPopup();
+      
+      // Add click handler to the popup after it's opened
+      marker.on('popupopen', () => {
+        const link = document.querySelector(`[data-project-id="${m.id}"]`);
+        if (link) {
+          link.addEventListener('click', () => navigate(`/hci-final/projects/${m.id}`));
+        }
+      });
     });
 
     return () => {
