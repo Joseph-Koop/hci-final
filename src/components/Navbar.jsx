@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Navbar({ mode, switchMode }) {
     return (
-        <div className="h-screen w-64 bg-(--dark2) text-white flex flex-col p-6 gap-6 shadow-2xl">
+        <div className="h-screen w-64 bg-(--dark2) text-white flex flex-col p-6 gap-6 shadow-2xl top-0 left-0 sticky z-20">
             <Link
                 to="/hci-final/"
                 className="text-2xl font-bold text-(--main1) tracking-wide hover:opacity-80 transition"
@@ -19,7 +19,7 @@ function Navbar({ mode, switchMode }) {
                 </div>
                 <div>
                     <button onClick={switchMode} className="flex items-center w-full gap-3 p-3 rounded-xl hover:bg-(--main2) hover:cursor-pointer transition">
-                        {mode === 'light' ? 'Light ☀️' : 'Dark 🌙'}
+                        {mode === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
                     </button>
                     <a href="#" className="flex items-center gap-3 p-3 rounded-xl text-(--main3) hover:text-(--light2) hover:bg-(--main3) transition">Log Out</a>
                 </div>

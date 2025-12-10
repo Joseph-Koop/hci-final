@@ -1,8 +1,25 @@
 import '../App.css';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
-function ProjectBox({ data, equipment, employees, onDrop }) {
+function ProjectBox({ data, equipment, employees, onDrop, onEditMaterials }) {
   const projectRoute = `/hci-final/projects/${data.id}`;
+  const [materials, setMaterials] = useState(data.materials || []);
+
+  useEffect(() => {
+    setMaterials(data.materials || []);
+  }, [data.materials]);
+
+  const updateMaterial = (index, delta) => {
+    setMaterials(prev => {
+      const next = prev.map((m, i) => i === index ? { ...m, amount: Math.max(0, m.amount + delta) } : m);
+      // call optional external updater
+      if (typeof onEditMaterials === 'function') {
+        try { onEditMaterials(data.id, next); } catch (e) {}
+      }
+      return next;
+    });
+  };
 
   const handleDragStart = (e, id, type) => {
     e.dataTransfer.effectAllowed = "move";
@@ -83,14 +100,32 @@ function ProjectBox({ data, equipment, employees, onDrop }) {
       </div>
 
       {/* Materials Section */}
-      {data.materials && data.materials.length > 0 && (
+      {materials && materials.length > 0 && (
         <div className="mb-3">
           <h4 className="text-sm font-medium text-(--main1) dark:text-orange-300 mb-2">Materials</h4>
           <div className="space-y-2">
-            {data.materials.map((material, index) => (
-              <div key={index} className="flex justify-between items-center bg-orange-50 dark:bg-orange-900/30 px-2 py-1 rounded border border-orange-200 dark:border-orange-700">
+            {materials.map((material, index) => (
+              <div key={index} className="flex justify-between items-center px-2 py-1 rounded border bg-orange-50 dark:bg-orange-500/30 border-orange-200 dark:border-orange-500">
                 <p className="text-xs font-medium text-gray-800 dark:text-gray-200 truncate">{material.name}</p>
-                <p className="text-xs text-gray-600 dark:text-gray-300">{material.amount}</p>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    aria-label={`Decrease ${material.name}`}
+                    onClick={() => updateMaterial(index, -1)}
+                    className="bg-orange-300 dark:bg-orange-500 w-6 h-6 flex items-center justify-center rounded-full hover:opacity-90"
+                  >
+                    −
+                  </button>
+                  <p className="text-xs text-gray-600 dark:text-gray-300">{material.amount}</p>
+                  <button
+                    type="button"
+                    aria-label={`Increase ${material.name}`}
+                    onClick={() => updateMaterial(index, 1)}
+                    className="bg-orange-300 dark:bg-orange-500 w-6 h-6 flex items-center justify-center rounded-full hover:opacity-90"
+                  >
+                    +
+                  </button>
+                </div>
               </div>
             ))}
           </div>

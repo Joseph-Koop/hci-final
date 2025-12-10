@@ -16,14 +16,18 @@ function Map({ projectsList }) {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    projectsList.forEach((project) => {
-      const marker = L.marker([project.locationX, project.locationY]).addTo(map);
-      const popupContent = `
-        <a href="/hci-final/projects/${project.id}" class="text-md font-semibold text-black mb-2 border-b border-orange-300 pb-2 hover:text-orange-500">
-          ${project.name}
-        </a>
-      `;
-      marker.bindPopup(popupContent);
+    const markers = [
+      { coords: [16.96, -88.22], id: 2, name: "Hummingbird Roadwork" },
+      { coords: [17.15, -89.07], id: 1, name: "Grading Campsite" },
+      { coords: [18.08, -88.56], id: 3, name: "Paving Business Lot" },
+    ];
+
+    markers.forEach((m) => {
+      const marker = L.marker(m.coords).addTo(map);
+      const popup = L.popup({ autoClose: false }).setContent(
+        `<a href="/hci-final/projects/${m.id}" class="text-sm font-semibold text-black mb-2 border-b border-orange-300 pb-2 hover:text-orange-500">${m.name}</a>`
+      );
+      marker.bindPopup(popup).openPopup();
     });
 
     return () => {
@@ -32,9 +36,9 @@ function Map({ projectsList }) {
   }, [projectsList]);
 
   return (
-    <div className="bg-(--light2) dark:bg-(--dark1) grid grid-rows-[1fr_6fr_1fr] w-full h-screen text-black dark:text-white">
-      <div className="flex justify-end items-center">
-        <Link to="/hci-final/projects" className="text-center gap-3 p-3 m-3 rounded-xl hover:bg-(--main3) bg-(--main2) transition">
+    <div className="bg-(--light2) dark:bg-(--dark1) grid grid-rows-[1fr_6fr_1fr] w-full h-screen text-white">
+      <div className="bg-(--light2) dark:bg-(--dark1) sticky top-0 z-10 flex justify-end items-center">
+        <Link to="/hci-final/projects" className="text-center gap-3 p-3 m-3 rounded-xl bg-(--main2) transition">
           Project View
         </Link>
       </div>
@@ -45,3 +49,5 @@ function Map({ projectsList }) {
 }
 
 export default Map;
+
+

@@ -4,7 +4,7 @@ import { unassigned } from '../data/projects';
 import ProjectBox from '../components/ProjectBox';
 import { useState } from 'react';
 
-function Projects({ equipmentList, employeeList, projectsList, onDrop, onAddProject, onDeleteProject }) {
+function Projects({ equipmentList, employeeList, projectsList, onDrop, onAddProject, onDeleteProject, onEditProjectMaterials }) {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
@@ -43,7 +43,7 @@ function Projects({ equipmentList, employeeList, projectsList, onDrop, onAddProj
   return (
     <div className="bg-(--light2) dark:bg-(--dark1) min-h-screen w-full text-gray-800 dark:text-white">
       {/* Header */}
-      <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
+      <div className="bg-(--light2) dark:bg-(--dark1) sticky top-0 z-10 flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
         <h1 className="text-2xl font-bold">Projects</h1>
         <div className="flex gap-4">
           <button
@@ -66,7 +66,17 @@ function Projects({ equipmentList, employeeList, projectsList, onDrop, onAddProj
         <h2 className="text-xl font-semibold mb-4">Unassigned Resources</h2>
         <div className="flex justify-center">
           <div className="w-full max-w-md">
-            <div className="bg-white dark:bg-(--dark2) rounded-xl shadow border border-gray-200 dark:border-gray-700 p-4">
+              <div
+                className="bg-white dark:bg-(--dark2) rounded-xl shadow border border-gray-200 dark:border-gray-700 p-4"
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  const itemId = e.dataTransfer.getData('itemId');
+                  const itemType = e.dataTransfer.getData('itemType');
+                  const sourceGroup = e.dataTransfer.getData('sourceGroup');
+                  if (onDrop) onDrop(itemId, itemType, sourceGroup, unassigned.group);
+                }}
+              >
               <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-3">
                 Unassigned
               </h3>
@@ -128,7 +138,7 @@ function Projects({ equipmentList, employeeList, projectsList, onDrop, onAddProj
       </div>
 
       {/* All Projects Section */}
-      <div className="px-6">
+      <div className="px-6 pb-10">
         <h2 className="text-xl font-semibold mb-4">All Projects</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {projectsList.map((project) => (
@@ -138,16 +148,8 @@ function Projects({ equipmentList, employeeList, projectsList, onDrop, onAddProj
                 equipment={equipmentList}
                 employees={employeeList}
                 onDrop={onDrop}
+                onEditMaterials={onEditProjectMaterials}
               />
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  onDeleteProject(project.id);
-                }}
-                className="absolute top-2 right-2 px-2 py-1 bg-(--main3) text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-opacity-90"
-              >
-                Delete
-              </button>
             </div>
           ))}
         </div>

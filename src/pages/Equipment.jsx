@@ -34,7 +34,7 @@ function Equipment({ equipmentList, onAddEquipment, onEditEquipment, onDeleteEqu
   return (
     <div className="bg-(--light2) dark:bg-(--dark1) min-h-screen w-full text-gray-800 dark:text-white p-6">
       {/* Header */}
-      <div className="flex justify-between items-center mb-6 border-b border-gray-200 dark:border-gray-700 pb-4">
+      <div className="bg-(--light2) dark:bg-(--dark1) sticky top-0 z-10 flex justify-between items-center mb-6 border-b border-gray-200 dark:border-gray-700 pb-4">
         <h1 className="text-2xl font-bold">Equipment</h1>
         <button
           onClick={() => setShowAddModal(true)}

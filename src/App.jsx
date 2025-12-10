@@ -110,6 +110,16 @@ function App() {
     );
   };
 
+  const handleEditProject = (updatedProject) => {
+    setProjectsList(prev =>
+      prev.map(project =>
+        project.id === updatedProject.id
+          ? updatedProject
+          : project
+      )
+    );
+  };
+
   const switchMode = () => {
     setMode(prevMode => prevMode === 'dark' ? 'light' : 'dark');
   };
@@ -130,6 +140,7 @@ function App() {
                 onDrop={handleDrop}
                 onAddProject={handleAddProject}
                 onDeleteProject={handleDeleteProject}
+                onEditProjectMaterials={handleEditProjectMaterials}
               />
             }
           />
@@ -146,6 +157,7 @@ function App() {
                 onDeleteLog={handleDeleteLog}
                 onEditProjectMaterials={handleEditProjectMaterials}
                 onEditProjectCompletion={handleEditProjectCompletion}
+                onEditProject={handleEditProject}
               />
             }
           />

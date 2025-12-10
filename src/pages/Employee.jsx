@@ -33,7 +33,7 @@ function Employee() {
 
   return (
     <div className="bg-(--light2) dark:bg-(--dark1) w-full h-screen text-gray-800 dark:text-white p-6">
-      <div className="flex justify-between items-center mb-6">
+      <div className="bg-(--light2) dark:bg-(--dark1) sticky top-0 z-10 flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Employees</h1>
         <button
           onClick={() => setShowAddModal(true)}

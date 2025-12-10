@@ -46,7 +46,7 @@ function Dashboard() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Dashboard</h1>
       </div>
-      <h2 className="text-xl font-semibold mb-4">Recent Projects</h2>
+      <Link className="hover:text-blue-600 hover:underline" to="/hci-final/projects"><h2 className="text-xl font-semibold mb-4">Projects</h2></Link>
       <div className="overflow-x-auto bg-white dark:bg-(--dark2) rounded-xl shadow border border-gray-200 mb-8">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-gray-50 dark:bg-(--dark2)">
@@ -76,7 +76,7 @@ function Dashboard() {
           </tbody>
         </table>
       </div>
-      <h2 className="text-xl font-semibold mb-4">Map View</h2>
+      <Link className="hover:text-blue-600 hover:underline" to="/hci-final/map"><h2 className="text-xl font-semibold mb-4">Map View</h2></Link>
       <Link to="/hci-final/map" className="block">
         <div className="bg-white dark:bg-(--dark2) rounded-xl shadow border border-gray-200 overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
           <div ref={mapRef} className="h-64 bg-gray-100 dark:bg-gray-700"></div>
