@@ -122,15 +122,15 @@ export const unassigned = {
 };
 
 export const equipment = [
-    { name: "EX-2", id: 1, group: "group1" },
-    { name: "DT-1", id: 2, group: "group1" },
-    { name: "CT-1", id: 3, group: "group2" },
-    { name: "GR-1", id: 4, group: "group2" },
-    { name: "DT-3", id: 5, group: "group3" },
-    { name: "CT-2", id: 6, group: "group3" },
-    { name: "EX-1", id: 7, group: "group4" },
-    { name: "EX-3", id: 8, group: "group4" },
-    { name: "DT-2", id: 9, group: "group4" }
+    { name: "EX-2", vin: "12345678ABCD", model: "CAT 1030", type: "Excavator", id: 1, group: "group1" },
+    { name: "DT-1", vin: "22345678ABCD", model: "CAT 2030", type: "Dump Truck", id: 2, group: "group1" },
+    { name: "CT-1", vin: "32345678ABCD", model: "CAT 3030", type: "Cement Truck", id: 3, group: "group2" },
+    { name: "GR-1", vin: "42345678ABCD", model: "CAT 4030", type: "Grader", id: 4, group: "group2" },
+    { name: "DT-3", vin: "52345678ABCD", model: "CAT 5030", type: "Dump Truck", id: 5, group: "group3" },
+    { name: "CT-2", vin: "62345678ABCD", model: "CAT 6030", type: "Cement Truck", id: 6, group: "group3" },
+    { name: "EX-1", vin: "72345678ABCD", model: "CAT 7030", type: "Excavator", id: 7, group: "group4" },
+    { name: "EX-3", vin: "82345678ABCD", model: "CAT 8030", type: "Excavator", id: 8, group: "group4" },
+    { name: "DT-2", vin: "92345678ABCD", model: "CAT 9030", type: "Dump Truck", id: 9, group: "group4" }
 ];
 
 export const employees = [

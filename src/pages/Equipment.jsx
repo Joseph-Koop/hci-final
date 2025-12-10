@@ -6,8 +6,9 @@ import { useState } from 'react';
 function Equipment({ equipmentList, onAddEquipment, onEditEquipment, onDeleteEquipment }) {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [currentEquipment, setCurrentEquipment] = useState({ id: null, name: '', group: 'group4', quantity: 1, logs: [] });
-  const [newEquipment, setNewEquipment] = useState({ name: '', group: 'group4', quantity: 1, logs: [] });
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [currentEquipment, setCurrentEquipment] = useState({ id: null, name: '', group: 'group4', quantity: 1, logs: [], type: '', model: '', vin: '' });
+  const [newEquipment, setNewEquipment] = useState({ name: '', group: 'group4', quantity: 1, logs: [], type: '', model: '', vin: '' });
 
   const getProjectName = (group) => projects.find(p => p.group === group)?.name || "Unassigned";
 
@@ -15,7 +16,7 @@ function Equipment({ equipmentList, onAddEquipment, onEditEquipment, onDeleteEqu
     e.preventDefault();
     onAddEquipment({ ...newEquipment, id: equipmentList.length + 1 });
     setShowAddModal(false);
-    setNewEquipment({ name: '', group: 'group4', quantity: 1, logs: [] });
+    setNewEquipment({ name: '', group: 'group4', quantity: 1, logs: [], type: '', model: '', vin: '' });
   };
 
   const handleEditEquipment = (e) => {
@@ -29,6 +30,21 @@ function Equipment({ equipmentList, onAddEquipment, onEditEquipment, onDeleteEqu
     e.stopPropagation();
     setCurrentEquipment(item);
     setShowEditModal(true);
+  };
+
+  const handleDeleteEquipment = (e) => {
+    e.preventDefault();
+    if (currentEquipment && typeof currentEquipment.id !== 'undefined') {
+      onDeleteEquipment(currentEquipment.id);
+    }
+    setShowDeleteModal(false);
+  };
+
+  const openDeleteModal = (item, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCurrentEquipment(item);
+    setShowDeleteModal(true);
   };
 
   return (
@@ -54,10 +70,9 @@ function Equipment({ equipmentList, onAddEquipment, onEditEquipment, onDeleteEqu
           >
             <Link to={`/hci-final/equipment/${item.id}`} className="block">
               <h3 className="text-lg font-semibold mb-2 truncate">{item.name}</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">Quantity: {item.quantity}</p>
-              <p className="text-sm text-gray-600 dark:text-gray-300 truncate">
-                {getProjectName(item.group)}
-              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">{item.type}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">Model: {item.model}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-300">VIN: {item.vin}</p>
             </Link>
             <div className="flex gap-2 mt-3">
               <button
@@ -68,9 +83,7 @@ function Equipment({ equipmentList, onAddEquipment, onEditEquipment, onDeleteEqu
               </button>
               <button
                 onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  onDeleteEquipment(item.id);
+                  openDeleteModal(item, e)
                 }}
                 className="px-3 py-1 bg-(--main3) text-white text-xs rounded-lg hover:bg-opacity-90 transition-colors"
               >
@@ -106,30 +119,34 @@ function Equipment({ equipmentList, onAddEquipment, onEditEquipment, onDeleteEqu
                 />
               </div>
               <div>
-                <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">Quantity</label>
+                <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">Type</label>
                 <input
-                  type="number"
-                  min="1"
-                  value={newEquipment.quantity}
-                  onChange={(e) => setNewEquipment({ ...newEquipment, quantity: parseInt(e.target.value) })}
+                  type="text"
+                  value={newEquipment.type}
+                  onChange={(e) => setNewEquipment({ ...newEquipment, type: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-(--main1) dark:bg-(--dark2) dark:text-white"
                   required
                 />
               </div>
               <div>
-                <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">Project</label>
-                <select
-                  value={newEquipment.group}
-                  onChange={(e) => setNewEquipment({ ...newEquipment, group: e.target.value })}
+                <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">Model</label>
+                <input
+                  type="text"
+                  value={newEquipment.model}
+                  onChange={(e) => setNewEquipment({ ...newEquipment, model: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-(--main1) dark:bg-(--dark2) dark:text-white"
                   required
-                >
-                  <option value="">Select a project</option>
-                  {projects.map(project => (
-                    <option key={project.group} value={project.group}>{project.name}</option>
-                  ))}
-                  <option value="group4">Unassigned</option>
-                </select>
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">VIN</label>
+                <input
+                  type="text"
+                  value={newEquipment.vin}
+                  onChange={(e) => setNewEquipment({ ...newEquipment, vin: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-(--main1) dark:bg-(--dark2) dark:text-white"
+                  required
+                />
               </div>
               <div className="flex justify-end gap-3 pt-4">
                 <button
@@ -176,6 +193,36 @@ function Equipment({ equipmentList, onAddEquipment, onEditEquipment, onDeleteEqu
                 />
               </div>
               <div>
+                <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">Type</label>
+                <input
+                  type="text"
+                  value={currentEquipment.type}
+                  onChange={(e) => setCurrentEquipment({ ...currentEquipment, type: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-(--main1) dark:bg-(--dark2) dark:text-white"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">Model</label>
+                <input
+                  type="text"
+                  value={currentEquipment.model}
+                  onChange={(e) => setCurrentEquipment({ ...currentEquipment, model: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-(--main1) dark:bg-(--dark2) dark:text-white"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">VIN</label>
+                <input
+                  type="text"
+                  value={currentEquipment.vin}
+                  onChange={(e) => setCurrentEquipment({ ...currentEquipment, vin: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-(--main1) dark:bg-(--dark2) dark:text-white"
+                  required
+                />
+              </div>
+              {/* <div>
                 <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">Quantity</label>
                 <input
                   type="number"
@@ -200,7 +247,7 @@ function Equipment({ equipmentList, onAddEquipment, onEditEquipment, onDeleteEqu
                   ))}
                   <option value="group4">Unassigned</option>
                 </select>
-              </div>
+              </div> */}
               <div className="flex justify-end gap-3 pt-4">
                 <button
                   type="button"
@@ -214,6 +261,43 @@ function Equipment({ equipmentList, onAddEquipment, onEditEquipment, onDeleteEqu
                   className="px-4 py-2 bg-(--main1) text-white rounded-lg hover:bg-opacity-90 transition-colors"
                 >
                   Update
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      
+      {/* Delete Equipment Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-(--dark2) rounded-xl w-full max-w-md p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Delete Equipment</h3>
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="p-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+              >
+                ✕
+              </button>
+            </div>
+            <form onSubmit={handleDeleteEquipment} className="space-y-4">
+              <div>
+                <p>Are you sure you want to delete this equipment?</p>
+              </div>
+              <div className="flex justify-end gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowDeleteModal(false)}
+                  className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-(--main1) text-white rounded-lg hover:bg-opacity-90 transition-colors"
+                >
+                  Delete
                 </button>
               </div>
             </form>

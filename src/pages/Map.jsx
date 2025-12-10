@@ -1,8 +1,17 @@
 import '../App.css';
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import L from 'leaflet';
+import L from "leaflet";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import 'leaflet/dist/leaflet.css';
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
 
 function Map({ projectsList }) {
   const mapRef = useRef(null);

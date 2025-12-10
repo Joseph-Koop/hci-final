@@ -6,6 +6,7 @@ function EquipmentItem({ equipmentList, onEditEquipment }) {
   const equipment = equipmentList.find(e => e.id === parseInt(id));
   const [showAddLogModal, setShowAddLogModal] = useState(false);
   const [showEditLogModal, setShowEditLogModal] = useState(false);
+  const [showDeleteLogModal, setShowDeleteLogModal] = useState(false);
   const [currentLog, setCurrentLog] = useState({ date: '', message: '', index: null });
   const [newLog, setNewLog] = useState({ date: '', message: '' });
 
@@ -36,13 +37,24 @@ function EquipmentItem({ equipmentList, onEditEquipment }) {
     setShowEditLogModal(false);
   };
 
-  const handleDeleteLog = (logIndex) => {
-    const updatedLogs = (equipment.logs || []).filter((_, index) => index !== logIndex);
+  const handleDeleteLog = (e) => {
+    e.preventDefault();
+    const updatedLogs = [...(equipment.logs || [])];
+    if (currentLog && typeof currentLog.index === 'number') {
+      updatedLogs.splice(currentLog.index, 1);
+    }
     const updatedEquipment = {
       ...equipment,
       logs: updatedLogs
     };
     onEditEquipment(updatedEquipment);
+    setShowDeleteLogModal(false);
+    setCurrentLog({ date: '', message: '', index: null });
+  };
+
+  const openDeleteLog = (log) => {
+    setCurrentLog(log);
+    setShowDeleteLogModal(true);
   };
 
   return (
@@ -62,8 +74,9 @@ function EquipmentItem({ equipmentList, onEditEquipment }) {
       <div className="bg-white dark:bg-(--dark2) rounded-xl shadow border border-gray-200 dark:border-gray-700 p-6 mb-6">
         <h2 className="text-xl font-semibold mb-4 text-orange-600">Details</h2>
         <div className="space-y-3">
-          <p><strong>Quantity:</strong> {equipment.quantity}</p>
-          <p><strong>Group:</strong> {equipment.group}</p>
+          <p><strong>{equipment.type}</strong></p>
+          <p><strong>Model:</strong> {equipment.model}</p>
+          <p><strong>VIN:</strong> {equipment.vin}</p>
         </div>
       </div>
 
@@ -81,7 +94,7 @@ function EquipmentItem({ equipmentList, onEditEquipment }) {
         <div className="space-y-3 max-h-64 overflow-y-auto">
           {equipment.logs && equipment.logs.length > 0 ? (
             equipment.logs.map((log, index) => (
-              <div key={log.id || index} className="flex justify-between items-center bg-orange-50 dark:bg-orange-900/30 px-4 py-2 rounded-lg border border-orange-200 dark:border-orange-700">
+              <div key={log.id || index} className="flex justify-between items-center px-4 py-2 rounded-lg border bg-orange-50 dark:bg-orange-500/30 border-orange-200 dark:border-orange-500">
                 <div className="flex-1">
                   <p className="font-medium text-gray-800 dark:text-gray-200">{log.date}</p>
                   <p className="text-gray-800 dark:text-gray-200 truncate">{log.message}</p>
@@ -97,7 +110,10 @@ function EquipmentItem({ equipmentList, onEditEquipment }) {
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDeleteLog(index)}
+                    onClick={() => {
+                      setCurrentLog({ ...log, index });
+                      setShowDeleteLogModal(true);
+                    }}
                     className="px-2 py-0.5 bg-(--main3) text-white text-xs rounded hover:bg-opacity-90 transition-colors"
                   >
                     Delete
@@ -217,6 +233,43 @@ function EquipmentItem({ equipmentList, onEditEquipment }) {
                   className="px-4 py-2 bg-(--main1) text-white rounded-lg hover:bg-opacity-90 transition-colors"
                 >
                   Update
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Log Modal */}
+      {showDeleteLogModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-(--dark2) rounded-xl w-full max-w-md p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Delete Log</h3>
+                <button
+                  onClick={() => setShowDeleteLogModal(false)}
+                  className="p-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                >
+                  ✕
+                </button>
+              </div>
+              <form onSubmit={handleDeleteLog} className="space-y-4">
+              <div>
+                <p>Are you sure you want to delete this log?</p>
+              </div>
+              <div className="flex justify-end gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowDeleteLogModal(false)}
+                  className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-(--main1) text-white rounded-lg hover:bg-opacity-90 transition-colors"
+                >
+                  Delete
                 </button>
               </div>
             </form>

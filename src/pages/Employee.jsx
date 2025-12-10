@@ -6,6 +6,7 @@ function Employee() {
   const [employeeList, setEmployeeList] = useState(employees);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [currentEmployee, setCurrentEmployee] = useState({ id: null, name: '', position: '', group: 'group4' });
   const [newEmployee, setNewEmployee] = useState({ name: '', position: '', group: 'group4' });
 
@@ -24,7 +25,16 @@ function Employee() {
     setShowEditModal(false);
   };
 
-  const handleDeleteEmployee = (id) => setEmployeeList(employeeList.filter(employee => employee.id !== id));
+  const handleDeleteEmployee = (e) => {
+    e.preventDefault();
+    setEmployeeList(employeeList.filter(employee => employee.id !== currentEmployee.id));
+    setShowDeleteModal(false);
+  };
+
+  const openDeleteModal = (employee) => {
+    setCurrentEmployee(employee);
+    setShowDeleteModal(true);
+  };
 
   const openEditModal = (employee) => {
     setCurrentEmployee(employee);
@@ -68,7 +78,7 @@ function Employee() {
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDeleteEmployee(employee.id)}
+                    onClick={() => openDeleteModal(employee)}
                     className="px-3 py-1 bg-(--main3) text-white text-xs rounded-lg hover:bg-opacity-90 transition-colors"
                   >
                     Delete
@@ -203,6 +213,43 @@ function Employee() {
                   className="px-4 py-2 bg-(--main1) text-white rounded-lg hover:bg-opacity-90 transition-colors"
                 >
                   Update
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      
+      {/* Delete Employee Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-(--dark2) rounded-xl w-full max-w-md p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Delete Employee</h3>
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="p-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+              >
+                ✕
+              </button>
+            </div>
+            <form onSubmit={handleDeleteEmployee} className="space-y-4">
+              <div>
+                <p>Are you sure you want to delete this employee?</p>
+              </div>
+              <div className="flex justify-end gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowDeleteModal(false)}
+                  className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-(--main1) text-white rounded-lg hover:bg-opacity-90 transition-colors"
+                >
+                  Delete
                 </button>
               </div>
             </form>
