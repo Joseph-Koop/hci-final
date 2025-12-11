@@ -1,16 +1,34 @@
-# React + Vite
+## HCI Final HiFi Prototype
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Created by Group 4 (SiteManager):
+Joseph Koop
+Enrique Garcia
+Kelvin Gordon
 
-Currently, two official plugins are available:
+[Link to Prototype](https://joseph-koop.github.io/hci-final/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Problem Statement
+Construction companies need a digital dashboard to track all projects, employees, and equipment in one place because current systems lack real-time visibility and lead to inefficiencies. Our solution is to create a live map that links to projects and shows exactly which employees, equipment, and materials are needed at each location.
 
-## React Compiler
+### Key features:
+- Dashboard to view projects and assign resources
+- Map to view project locations
+- Project, Equipment, Employee, and Material pages
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### To run a local version:
+1. Have NodeJS installed.
+1. Clone this repository in VS Code or another IDE.
+2. Run the command npm run dev in the terminal.
 
-## Expanding the ESLint configuration
+```
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Note:
+This project is built from a design perspective. Information is not saved to a database - create, update, and delete operations are only temporary.
+
+### Coming soon:
+- Backend functionality
+- in Software Engineering, 2025-2
+
+Built with React + Vite
