@@ -1,9 +1,9 @@
 ## HCI Final HiFi Prototype
 
 ### Created by Group 4 (SiteManager):
-Joseph Koop
-Enrique Garcia
-Kelvin Gordon
+Joseph Koop,
+Enrique Garcia,
+Kelvin Gordon,
 
 [Link to Prototype](https://joseph-koop.github.io/hci-final/)
 
